@@ -2,6 +2,7 @@ import os
 import sys
 import random
 import time
+import csv
 
 
 def check_args(file_args):
@@ -18,19 +19,40 @@ def check_args(file_args):
         exit()
 
 
+def build_weather_station_name_list_with_csv():
+    """
+    Grabs the weather station names from example data provided in repo and dedups
+    """
+    station_names = set()
+    try:
+        with open('./data/weather_stations.csv', 'r', encoding="utf-8") as file:
+            file_contents = csv.reader(file, delimiter=';')
+            for station in file_contents:
+                if not station or "#" in station[0]:
+                    continue
+                station_names.add(station[0])
+        return list(set(station_names))
+    except FileNotFoundError:
+        print("File './data/weather_stations.csv' not found.")
+        return []
+    
 def build_weather_station_name_list():
     """
     Grabs the weather station names from example data provided in repo and dedups
     """
     station_names = []
-    with open('./data/weather_stations.csv', 'r', encoding="utf-8") as file:
-        file_contents = file.read()
-    for station in file_contents.splitlines():
-        if "#" in station:
-            next
-        else:
-            station_names.append(station.split(';')[0])
-    return list(set(station_names))
+    try:
+        with open('./data/weather_stations.csv', 'r', encoding="utf-8") as file:
+            file_contents = file.read()
+        for station in file_contents.splitlines():
+            if "#" in station:
+                next
+            else:
+                station_names.append(station.split(';')[0])
+        return list(set(station_names))
+    except FileNotFoundError:
+        print("File './data/weather_stations.csv' not found.")
+        return []
 
 
 def convert_bytes(num):
@@ -102,12 +124,15 @@ def build_test_data(weather_station_names, num_rows_to_create):
                 batch = random.choices(station_names_10k_max, k=batch_size)
                 prepped_deviated_batch = '\n'.join([f"{station};{random.uniform(coldest_temp, hottest_temp):.1f}" for station in batch]) # :.1f should quicker than round on a large scale, because round utilizes mathematical operation
                 file.write(prepped_deviated_batch + '\n')
+                #Caso queria ver o progresso descomente as linhas abaixo
+                #if s % progress_step == 0:
+                    #print(f"{s * batch_size}/{num_rows_to_create} linhas geradas...")
                 
         sys.stdout.write('\n')
     except Exception as e:
         print("Something went wrong. Printing error info and exiting...")
         print(e)
-        exit()
+        return #Permite que a geração continue
     
     end_time = time.time()
     elapsed_time = end_time - start_time
@@ -123,9 +148,9 @@ def main():
     """
     main program function
     """
-    num_rows_to_create = 1000000
+    num_rows_to_create = 10000000
     weather_station_names = []
-    weather_station_names = build_weather_station_name_list()
+    weather_station_names = build_weather_station_name_list_with_csv()
     print(estimate_file_size(weather_station_names, num_rows_to_create))
     build_test_data(weather_station_names, num_rows_to_create)
     print("Arquivo de teste finalizado.")
