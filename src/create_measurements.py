@@ -155,7 +155,17 @@ def main():
     build_test_data(weather_station_names, num_rows_to_create)
     print("Arquivo de teste finalizado.")
 
+def main_externo(num_rows_to_create):
+    """
+    main program function
+    """
+    num_rows_to_create = num_rows_to_create
+    weather_station_names = []
+    weather_station_names = build_weather_station_name_list_with_csv()
+    print(estimate_file_size(weather_station_names, num_rows_to_create))
+    build_test_data(weather_station_names, num_rows_to_create)
+    print("Arquivo de teste finalizado.")
 
 if __name__ == "__main__":
     main()
-exit()
+#exit()

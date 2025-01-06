@@ -1,6 +1,6 @@
 import pandas as pd
 from multiprocessing import Pool, cpu_count
-from tqdm import tqdm  # importa o tqdm para barra de progresso
+#from tqdm import tqdm  # importa o tqdm para barra de progresso
 
 CONCURRENCY = cpu_count()
 
@@ -20,7 +20,8 @@ def create_df_with_pandas(filename, total_linhas, chunksize=chunksize):
     with pd.read_csv(filename, sep=';', header=None, names=['station', 'measure'], chunksize=chunksize) as reader:
         # Envolvendo o iterador com tqdm para visualizar o progresso
         with Pool(CONCURRENCY) as pool:
-            for chunk in tqdm(reader, total=total_chunks, desc="Processando"):
+            #for chunk in tqdm(reader, total=total_chunks, desc="Processando"):
+            for chunk in reader:
                 # Processa cada chunk em paralelo
                 result = pool.apply_async(process_chunk, (chunk,))
                 results.append(result)
