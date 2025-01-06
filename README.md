@@ -80,6 +80,8 @@ Esses resultados enfatizam a importância de selecionar a ferramenta adequada pa
 
 Duckdb vence tambem com 1 milhao de linhas, realmente é o melhor
 
+Implementei a aplicação, onde ele pede um numero de linhas, executa e traz o resultado de cada ferramenta.
+
 ## Como Executar
 
 Para executar este projeto e reproduzir os resultados:
@@ -97,6 +99,10 @@ Este projeto destaca a versatilidade do ecossistema Python para tarefas de proce
 ## Bonus
 
 Para rodar o script Bash descrito, você precisa seguir alguns passos simples. Primeiro, assegure-se de que você tenha um ambiente Unix-like, como Linux ou macOS, que suporta scripts Bash nativamente. Além disso, verifique se as ferramentas utilizadas no script (`wc`, `head`, `pv`, `awk`, e `sort`) estão instaladas em seu sistema. A maioria dessas ferramentas vem pré-instalada em sistemas Unix-like, mas `pv` (Pipe Viewer) pode precisar ser instalado manualmente.
+
+## Bonus 2
+
+Execute `python src/ranking_tools.py`, digite o número de registros e espere executar
 
 ### Instalando o Pipe Viewer (pv)
 
